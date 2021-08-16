@@ -20,9 +20,6 @@ public class RepositorioCliente {
             repo.crear(new Cliente("Marisa", "Gutierrez"));
             repo.crear(new Cliente("Pedro", "Arancibia"));
             repo.crear(new Cliente("Ramiro", "Suárez"));
-            Cliente jorge = new Cliente("Jorge", "Perez");
-            repo.crear(jorge);
-            repo.crear(jorge);
 
             // Listamos a los clientes.
             List<Cliente> clientes = repo.listar();
