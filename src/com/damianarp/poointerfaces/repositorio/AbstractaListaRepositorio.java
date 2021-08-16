@@ -1,8 +1,7 @@
 package com.damianarp.poointerfaces.repositorio;
 
 import com.damianarp.poointerfaces.modelo.BaseEntidad;
-import com.damianarp.poointerfaces.repositorio.excepciones.EscrituraAccesoDatoException;
-import com.damianarp.poointerfaces.repositorio.excepciones.LecturaAccesoDatoException;
+import com.damianarp.poointerfaces.repositorio.excepciones.*;
 
 import java.util.*;
 
@@ -51,6 +50,10 @@ public abstract class AbstractaListaRepositorio<T extends BaseEntidad> implement
         // Si el objeto es null se lanza la EscrituraAccesoDatoException.
         if(t == null) {
             throw new EscrituraAccesoDatoException("Error al insertar un objeto null.");
+        }
+        // Comprobamos si la lista ya contiene al objeto (para que no lo duplique). Si lo contiene se lanza una EscrituraAccesoDatoException.
+        if (this.dataSource.contains(t)) {
+            throw new RegistroDuplicadoAccesoDatoException("Error! El registro con id: " + t.getId() + " ya existe en el repositorio.");
         }
         this.dataSource.add(t);
     }

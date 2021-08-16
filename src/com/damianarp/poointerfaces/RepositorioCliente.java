@@ -2,9 +2,7 @@ package com.damianarp.poointerfaces;
 
 import com.damianarp.poointerfaces.modelo.Cliente;
 import com.damianarp.poointerfaces.repositorio.*;
-import com.damianarp.poointerfaces.repositorio.excepciones.AccesoDatoException;
-import com.damianarp.poointerfaces.repositorio.excepciones.EscrituraAccesoDatoException;
-import com.damianarp.poointerfaces.repositorio.excepciones.LecturaAccesoDatoException;
+import com.damianarp.poointerfaces.repositorio.excepciones.*;
 import com.damianarp.poointerfaces.repositorio.lista.ClienteListaRepositorio;
 
 import java.util.List;
@@ -22,7 +20,9 @@ public class RepositorioCliente {
             repo.crear(new Cliente("Marisa", "Gutierrez"));
             repo.crear(new Cliente("Pedro", "Arancibia"));
             repo.crear(new Cliente("Ramiro", "Suárez"));
-            repo.crear(null);
+            Cliente jorge = new Cliente("Jorge", "Perez");
+            repo.crear(jorge);
+            repo.crear(jorge);
 
             // Listamos a los clientes.
             List<Cliente> clientes = repo.listar();
@@ -157,14 +157,19 @@ public class RepositorioCliente {
             // Mostramos la cantidad de clientes registrados.
             System.out.println(repo.total());
 
-        // Atrapamos la excepción que puedan lanzar los métodos obtenerPorId(), editar() y eliminar() al intentar leer un registro.
-        } catch (LecturaAccesoDatoException e) { // Siempre se atrapan primero las excepciones hijas.
-            System.out.println("Excepción de Lectura -> " + e.getMessage()); // Imprimimos el mensaje de la excepción.
+        // Atrapamos la excepción que pueda lanzar el método crear() al intentar escribir un registro duplicado.
+        } catch (RegistroDuplicadoAccesoDatoException e) { // Siempre se atrapan primero las excepciones hijas.
+            System.out.println("Excepción de Registro Duplicado -> " + e.getMessage()); // Imprimimos el mensaje de la excepción.
             e.printStackTrace(System.out); // Mostramos por consola el registro del stack donde se ha iniciado la excepción.
 
         // Atrapamos la excepción que pueda lanzar el método crear() al intentar escribir un registro.
         } catch (EscrituraAccesoDatoException e) { // Siempre se atrapan primero las excepciones hijas.
             System.out.println("Excepción de Escritura -> " + e.getMessage()); // Imprimimos el mensaje de la excepción.
+            e.printStackTrace(System.out); // Mostramos por consola el registro del stack donde se ha iniciado la excepción.
+
+        // Atrapamos la excepción que puedan lanzar los métodos obtenerPorId(), editar() y eliminar() al intentar leer un registro.
+        } catch (LecturaAccesoDatoException e) { // Siempre se atrapan primero las excepciones hijas.
+            System.out.println("Excepción de Lectura -> " + e.getMessage()); // Imprimimos el mensaje de la excepción.
             e.printStackTrace(System.out); // Mostramos por consola el registro del stack donde se ha iniciado la excepción.
 
         // Atrapamos cualquier otra excepción más genérica.
