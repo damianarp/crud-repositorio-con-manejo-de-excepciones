@@ -1,6 +1,8 @@
 package com.damianarp.poointerfaces.repositorio;
 
 import com.damianarp.poointerfaces.modelo.BaseEntidad;
+import com.damianarp.poointerfaces.repositorio.excepciones.EscrituraAccesoDatoException;
+import com.damianarp.poointerfaces.repositorio.excepciones.LecturaAccesoDatoException;
 
 import java.util.*;
 
@@ -19,8 +21,13 @@ public abstract class AbstractaListaRepositorio<T extends BaseEntidad> implement
         return dataSource;
     }
 
+    // Método para obtener el id. Al lanzar una LecturaAccesoDatoException, debemos propagarla en la firma del método.
     @Override
-    public T obtenerPorId(Integer id) {
+    public T obtenerPorId(Integer id) throws LecturaAccesoDatoException {
+        // Validamos si el id es nulo o es menor o igual a cero, y en ese caso lanzamos la excepción LecturaAccesoDatoException.
+        if (id == null || id <= 0) {
+            throw new LecturaAccesoDatoException("Id inválido. Debe ser mayor que 0.");
+        }
         T resultado = null; // Inicializamos el resultado de la búsqueda del id como nulo por defecto.
         // Iteramos la lista de elementos para obtener el id.
         for(T t : this.dataSource) {
@@ -31,16 +38,26 @@ public abstract class AbstractaListaRepositorio<T extends BaseEntidad> implement
                 break;
             }
         }
+        // Si el resultado no se encuentra, lanzamos la excepción LecturaAccesoDatoException.
+        if (resultado == null) {
+            throw new LecturaAccesoDatoException("No existe el registro con el id: " + id);
+        }
         return resultado;
     }
 
+    // Método para crear un elemento. Al lanzar una EscrituraAccesoDatoException, debemos propagarla en la firma del método.
     @Override
-    public void crear(T t) {
+    public void crear(T t) throws EscrituraAccesoDatoException {
+        // Si el objeto es null se lanza la EscrituraAccesoDatoException.
+        if(t == null) {
+            throw new EscrituraAccesoDatoException("Error al insertar un objeto null.");
+        }
         this.dataSource.add(t);
     }
 
+    // Método para eliminar por el id. Al lanzar una LecturaAccesoDatoException, debemos propagarla en la firma del método.
     @Override
-    public void eliminar(Integer id) {
+    public void eliminar(Integer id) throws LecturaAccesoDatoException {
         // Al método remove() aplicado a la lista, le pasamos como argumento el cliente (id obtenido con el método obtenerPorId), para eliminar el registro.
         this.dataSource.remove(this.obtenerPorId(id));
     }

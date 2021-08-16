@@ -3,14 +3,16 @@ package com.damianarp.poointerfaces.repositorio.lista;
 import com.damianarp.poointerfaces.modelo.Cliente;
 import com.damianarp.poointerfaces.repositorio.AbstractaListaRepositorio;
 import com.damianarp.poointerfaces.repositorio.Direccion;
+import com.damianarp.poointerfaces.repositorio.excepciones.LecturaAccesoDatoException;
 
 import java.util.*;
 
 // Clase ClienteListRepositorio que hereda de la clase abstracta AbstractaListaRepositorio con parámetro del tipo Cliente.
 public class ClienteListaRepositorio extends AbstractaListaRepositorio<Cliente> {
 
+    // Método para editar por el id. Al lanzar una LecturaAccesoDatoException, debemos propagarla en la firma del método.
     @Override
-    public void editar(Cliente cliente) {
+    public void editar(Cliente cliente) throws LecturaAccesoDatoException {
         // Primero debemos seleccionar al cliente, lo buscamos con el método obtenerPorId().
         Cliente cli = this.obtenerPorId(cliente.getId());
         // Luego modificamos los datos con el cliente que recibimos por argumento.

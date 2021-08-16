@@ -4,14 +4,16 @@ package com.damianarp.poointerfaces.repositorio.lista;
 import com.damianarp.poointerfaces.modelo.Producto;
 import com.damianarp.poointerfaces.repositorio.AbstractaListaRepositorio;
 import com.damianarp.poointerfaces.repositorio.Direccion;
+import com.damianarp.poointerfaces.repositorio.excepciones.LecturaAccesoDatoException;
 
 import java.util.*;
 
 // Clase ProductoListaRepositorio que hereda de la clase abstracta AbstractaListaRepositorio con parámetro del tipo Producto.
 public class ProductoListaRepositorio extends AbstractaListaRepositorio<Producto> {
 
+    // Método para editar por el id. Al lanzar una LecturaAccesoDatoException, debemos propagarla en la firma del método.
     @Override
-    public void editar(Producto producto) {
+    public void editar(Producto producto) throws LecturaAccesoDatoException {
         // Primero debemos seleccionar el producto, lo buscamos con el método obtenerPorId().
         Producto p = obtenerPorId(producto.getId());
         // Luego modificamos los datos con el producto que recibimos por argumento.
